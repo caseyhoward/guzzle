@@ -34,10 +34,12 @@ var ProxyFactory = function() {
       }
     };
     for (moduleName in modules) {
-      proxy[moduleName] = function() {
-        stream = stream.pipe(modules[moduleName]());
-        return proxy;
-      };
+      proxy[moduleName] = (function(moduleName) {
+        return function() {
+          stream = stream.pipe(modules[moduleName].apply(null, arguments));
+          return proxy;
+        }
+      })(moduleName);
     }
     return proxy;
   };
