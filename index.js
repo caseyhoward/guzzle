@@ -13,8 +13,8 @@ var Guzzle = function() {
     src: function(sources) {
       return proxyFactory.build(sources);
     },
-    register: function(name) {
-      proxyFactory.register(name);
+    register: function() {
+      proxyFactory.register.apply(proxyFactory, arguments);
     }
   };
 };
@@ -22,8 +22,14 @@ var Guzzle = function() {
 var ProxyFactory = function() {
   var gulpPlugins = {};
 
-  this.register = function(name) {
-    gulpPlugins[camelCase(name)] = require('gulp-' + name);
+  this.register = function() {
+    var name, argumentIndex;
+    var argumentsLength = arguments.length;
+      console.log(arguments);
+    for (argumentIndex = 0; argumentIndex < argumentsLength; argumentIndex++) {
+      name = arguments[argumentIndex];
+      gulpPlugins[camelCase(name)] = require('gulp-' + name);
+    }
   };
 
   this.build = function(sources) {

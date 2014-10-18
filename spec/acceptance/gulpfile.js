@@ -1,9 +1,7 @@
 var gulp = require('gulp');
 var guzzle = require('../../index.js')();
 
-guzzle.register('concat');
-guzzle.register('uglify');
-guzzle.register('jshint');
+guzzle.register('concat', 'uglify', 'jshint');
 guzzle.register('sourcemaps');
 
 gulp.task('basic', function() {
