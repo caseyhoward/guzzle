@@ -1,14 +1,14 @@
 var gulp = require('gulp');
-var guzzle = require('../index.js')();
+var guzzle = require('../../index.js')();
 
 guzzle.register('concat');
 guzzle.register('uglify');
 guzzle.register('jshint');
 
-gulp.task('default', function() {
-  guzzle.src('./src/*.js')
+gulp.task('basic', function() {
+  guzzle.src('./assets/**/*.js')
     .jshint()
     .uglify()
-    .concat('test.js')
+    .concat('actual.js')
     .dest('./dist');
 });

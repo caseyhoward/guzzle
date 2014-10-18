@@ -31,7 +31,8 @@ var ProxyFactory = function() {
     var proxy = {
       dest: function(destination) {
         stream.pipe(gulp.dest(destination));
-      }
+      },
+      on: stream.on
     };
     for (moduleName in modules) {
       proxy[moduleName] = (function(moduleName) {
