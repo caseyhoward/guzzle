@@ -13,18 +13,18 @@ describe('guzzle.src', function() {
   }
 
   function runTest(name, done) {
-    exec('gulp ' + name + ' -v', {cwd: './spec/acceptance/'}, function() {
-      var expectedFileContents = readFileAndChompNewline('./spec/acceptance/expected_result.js');
-      var actualFileContents = readFileAndChompNewline('./spec/acceptance/dist/actual.js');
-      expect(expectedFileContents).to.equal(actualFileContents);
-      done();
+    it(name, function(done) {
+      exec('gulp ' + name + ' -v', {cwd: './spec/acceptance/'}, function() {
+        var expectedFileContents = readFileAndChompNewline('./spec/acceptance/assets/expected_results/' + name + '.js');
+        var actualFileContents = readFileAndChompNewline('./spec/acceptance/dist/actual.js');
+        expect(expectedFileContents).to.equal(actualFileContents);
+        done();
+      });
     });
   }
 
   beforeEach(deleteDistDirectory);
   afterEach(deleteDistDirectory);
 
-  it('works', function(done) {
-    runTest('basic', done);
-  });
+  runTest('basic');
 });
