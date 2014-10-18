@@ -20,10 +20,10 @@ var Guzzle = function() {
 };
 
 var ProxyFactory = function() {
-  var modules = {};
+  var gulpPlugins = {};
 
   this.register = function(name) {
-    modules[camelCase(name)] = require('gulp-' + name);
+    gulpPlugins[camelCase(name)] = require('gulp-' + name);
   };
 
   this.build = function(sources) {
@@ -34,13 +34,24 @@ var ProxyFactory = function() {
       },
       on: stream.on
     };
-    for (moduleName in modules) {
-      proxy[moduleName] = (function(moduleName) {
+    for (pluginName in gulpPlugins) {
+      proxy[pluginName] = (function(pluginName) {
         return function() {
-          stream = stream.pipe(modules[moduleName].apply(null, arguments));
+          stream = stream.pipe(gulpPlugins[pluginName].apply(null, arguments));
           return proxy;
         }
-      })(moduleName);
+      })(pluginName);
+
+      for (property in gulpPlugins[pluginName]) {
+        if (typeof gulpPlugins[pluginName][property] === 'function') {
+          proxy[pluginName][property] = (function(pluginName, property) {
+            return function() {
+              stream = stream.pipe(gulpPlugins[pluginName][property].apply(null, arguments));
+              return proxy;
+            }
+          })(pluginName, property);
+        }
+      }
     }
     return proxy;
   };
