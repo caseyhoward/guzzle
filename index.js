@@ -10,9 +10,23 @@ var Guzzle = function() {
   var proxyFactory = new ProxyFactory();
 
   return {
-    src: function(sources) {
-      return proxyFactory.build(sources);
+    task: function(name, dependencies, callback) {
+      if (typeof dependencies === 'function' || typeof callback === 'function') {
+        gulp.task.apply(gulp, arguments);
+      } else {
+        var proxy;
+        gulp.task(name, dependencies, function() {
+          return proxy;
+        });
+        return {
+          src: function(sources) {
+            proxy = proxyFactory.build(sources);
+            return proxy;
+          }
+        };
+      }
     },
+    src: proxyFactory.build,
     register: function() {
       proxyFactory.register.apply(proxyFactory, arguments);
     }
@@ -25,7 +39,6 @@ var ProxyFactory = function() {
   this.register = function() {
     var name, argumentIndex;
     var argumentsLength = arguments.length;
-      console.log(arguments);
     for (argumentIndex = 0; argumentIndex < argumentsLength; argumentIndex++) {
       name = arguments[argumentIndex];
       gulpPlugins[camelCase(name)] = require('gulp-' + name);

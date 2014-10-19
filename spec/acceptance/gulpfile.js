@@ -1,11 +1,10 @@
-var gulp = require('gulp');
-var guzzle = require('../../index.js')();
+var gulp = require('../../index.js')();
 
-guzzle.register('concat', 'uglify', 'jshint');
-guzzle.register('sourcemaps');
+gulp.register('concat', 'uglify', 'jshint');
+gulp.register('sourcemaps');
 
 gulp.task('basic', function() {
-  guzzle.src('./assets/src/**/*.js')
+  return gulp.src('./assets/src/**/*.js')
     .jshint()
     .concat('actual.js')
     .uglify()
@@ -13,7 +12,7 @@ gulp.task('basic', function() {
 });
 
 gulp.task('multiple_functions', function() {
-  guzzle.src('./assets/src/**/*.js')
+  return gulp.src('./assets/src/**/*.js')
     .jshint()
     .sourcemaps.init()
     .concat('actual.js')
@@ -22,4 +21,9 @@ gulp.task('multiple_functions', function() {
     .dest('./dist');
 });
 
-
+gulp.task('task')
+  .src('./assets/src/**/*.js')
+  .jshint()
+  .concat('actual.js')
+  .uglify()
+  .dest('./dist');
