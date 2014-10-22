@@ -2,6 +2,11 @@ Gulp without straws.
 
 This is a wrapper for gulp that adds syntactic sugar. It's basically gulp without the pipes.
 
+## Installation
+```
+npm install --save-dev guzzle
+```
+
 ## Usage
 
 ### gulpfile.js without guzzle
@@ -18,14 +23,14 @@ gulp.task('default', function() {
     .pipe(jshint())
     .pipe(uglify())
     .pipe(concat('test.js'))
-    .pipe(dest('./dist'));
+    .pipe(gulp.dest('./dist'));
 });
 ```
 
 ### gulpfile.js with guzzle
 
 ```javascript
-var guzzle = require('../index.js')();
+var guzzle = require('guzzle')();
 
 guzzle.register('concat', 'uglify', 'jshint');
 
@@ -39,7 +44,7 @@ guzzle.task('default')
 
 ### or if you prefer one line
 ```javascript
-var guzzle = require('../index.js')();
+var guzzle = require('guzzle')();
 guzzle.register('concat', 'uglify', 'jshint');
 guzzle.task('default').src('./src/*.js').jshint().uglify().concat('test.js').dest('./dist');
 ```
