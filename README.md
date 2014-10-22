@@ -30,7 +30,7 @@ gulp.task('default', function() {
 ### gulpfile.js with guzzle
 
 ```javascript
-var guzzle = require('guzzle')();
+var guzzle = require('guzzle');
 
 guzzle.register('concat', 'uglify', 'jshint');
 
@@ -44,7 +44,7 @@ guzzle.task('default')
 
 ### or if you prefer one line
 ```javascript
-var guzzle = require('guzzle')();
+var guzzle = require('guzzle');
 guzzle.register('concat', 'uglify', 'jshint');
 guzzle.task('default').src('./src/*.js').jshint().uglify().concat('test.js').dest('./dist');
 ```

@@ -13,4 +13,4 @@ var Guzzle = function() {
   };
 };
 
-module.exports = Guzzle;
+module.exports = new Guzzle();

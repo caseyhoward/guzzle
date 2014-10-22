@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var guzzle = require('./index')();
+var guzzle = require('./index');
 
 guzzle.register('mocha');
 

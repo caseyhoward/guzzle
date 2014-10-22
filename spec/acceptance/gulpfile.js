@@ -1,4 +1,4 @@
-var gulp = require('../../index.js')();
+var gulp = require('../../index.js');
 
 gulp.register('concat', 'uglify', 'jshint');
 gulp.register('sourcemaps');
