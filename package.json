@@ -9,7 +9,8 @@
   "author": "Casey Howard",
   "license": "MIT",
   "dependencies": {
-    "gulp": "~3.8.8"
+    "gulp": "~3.8.8",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "gulp-concat": "~2.4.1",
