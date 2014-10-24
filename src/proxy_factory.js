@@ -43,11 +43,11 @@ module.exports = function() {
     }
 
     var stream = gulp.src(sources);
+
     var proxy = {
       dest: function(destination) {
         stream.pipe(gulp.dest(destination));
-      },
-      on: stream.on
+      }
     };
     for (pluginName in gulpPlugins) {
       proxy[pluginName] = buildProxy(pluginName);
