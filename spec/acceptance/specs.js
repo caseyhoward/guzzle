@@ -23,7 +23,7 @@ describe('guzzle', function() {
 
   function runTest(name, assertions) {
     it(name, function(done) {
-      exec('gulp ' + name + ' -v', {cwd: './spec/acceptance/'}, function(error, stdout, stderr) {
+      exec('gulp test-' + name + ' -v', {cwd: './spec/acceptance/'}, function(error, stdout, stderr) {
         if (error) {
           console.log(stdout);
           console.log(stderr);

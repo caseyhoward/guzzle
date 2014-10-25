@@ -1,9 +1,10 @@
 var gulp = require('../../index.js');
+var concat = require('gulp-concat');
 
 gulp.register('concat', 'uglify', 'jshint');
 gulp.register('sourcemaps');
 
-gulp.task('basic', function() {
+gulp.task('test-basic', function() {
   return gulp.src('./assets/src/**/*.js')
     .jshint()
     .concat('actual.js')
@@ -11,7 +12,7 @@ gulp.task('basic', function() {
     .dest('./dist');
 });
 
-gulp.task('multiple_functions', function() {
+gulp.task('test-multiple_functions', function() {
   return gulp.src('./assets/src/**/*.js')
     .jshint()
     .sourcemaps.init()
@@ -21,10 +22,17 @@ gulp.task('multiple_functions', function() {
     .dest('./dist');
 });
 
-gulp.task('task')
+gulp.task('test-task')
   .src('./assets/src/**/*.js')
   .jshint()
   .concat('actual.js')
+  .uglify()
+  .dest('./dist');
+
+gulp.task('test-pipe')
+  .src('./assets/src/**/*.js')
+  .jshint()
+  .pipe(concat('actual.js'))
   .uglify()
   .dest('./dist');
 
