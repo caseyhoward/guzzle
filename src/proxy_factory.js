@@ -7,10 +7,10 @@ var camelCase = function(dashedString) {
   });
 }
 
-module.exports = function() {
+function GulpPluginRegistery() {
   var gulpPlugins = {};
 
-  this.register = function() {
+  this.register = function(name) {
     var name, argumentIndex;
     var argumentsLength = arguments.length;
     for (argumentIndex = 0; argumentIndex < argumentsLength; argumentIndex++) {
@@ -19,24 +19,38 @@ module.exports = function() {
     }
   };
 
+  this.get = function(name) {
+    return gulpPlugins[name];
+  };
+
+  this.all = function() {
+    return gulpPlugins;
+  };
+};
+
+var gulpPlugins = new GulpPluginRegistery();
+
+module.exports = function() {
+  this.register = gulpPlugins.register;
+
   this.build = function(sources) {
     function buildPluginProxy(pluginName) {
       return function() {
-        stream = stream.pipe(gulpPlugins[pluginName].apply(null, arguments));
+        stream = stream.pipe(gulpPlugins.get(pluginName).apply(null, arguments));
         return proxy;
       };
     }
 
     function buildProxyFunction(pluginName, property) {
       return function() {
-        stream = stream.pipe(gulpPlugins[pluginName][property].apply(null, arguments));
+        stream = stream.pipe(gulpPlugins.get(pluginName)[property].apply(null, arguments));
         return proxy;
       }
     }
 
     function buildProxy(pluginName) {
       var proxy = buildPluginProxy(pluginName);
-      _.each(_.functions(gulpPlugins[pluginName]), function(property) {
+      _.each(_.functions(gulpPlugins.get(pluginName)), function(property) {
         proxy[property] = buildProxyFunction(pluginName, property);
       });
       return proxy;
@@ -49,7 +63,7 @@ module.exports = function() {
         stream.pipe(gulp.dest(destination));
       }
     };
-    for (pluginName in gulpPlugins) {
+    for (pluginName in gulpPlugins.all()) {
       proxy[pluginName] = buildProxy(pluginName);
     }
     return proxy;
