@@ -5,7 +5,7 @@ module.exports = function(proxyFactory) {
   this.build = function(name, dependencies, callback) {
     var proxy;
     if (typeof dependencies === 'function' || typeof callback === 'function') {
-      gulp.task.apply(gulp, arguments);
+      return gulp.task.apply(gulp, arguments);
     } else {
       gulp.task(name, dependencies, function() {
         return proxy;

@@ -60,7 +60,7 @@ module.exports = function() {
 
     var proxy = {
       dest: function(destination) {
-        stream.pipe(gulp.dest(destination));
+        return stream.pipe(gulp.dest(destination));
       },
       pipe: function() {
         stream = stream.pipe.apply(stream, arguments);

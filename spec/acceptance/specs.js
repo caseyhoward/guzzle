@@ -56,4 +56,9 @@ describe('guzzle', function() {
     expect(actualFileContents.toString()).to.not.equal('');
     expect(actualFileContents).to.equal(expectedFileContents);
   });
+
+  runTest('pipe', function(actualFileContents, expectedFileContents) {
+    expect(actualFileContents.toString()).to.not.equal('');
+    expect(actualFileContents).to.equal(expectedFileContents);
+  });
 });
