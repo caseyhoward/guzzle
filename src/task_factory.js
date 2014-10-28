@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var ProxyFactory = new require('./proxy_factory');
 
-module.exports = function(proxyFactory) {
+module.exports = function(gulpPlugins, proxyFactory) {
   this.build = function(name, dependencies, callback) {
     var proxy;
     if (typeof dependencies === 'function' || typeof callback === 'function') {

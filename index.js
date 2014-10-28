@@ -1,10 +1,12 @@
 var gulp = require('gulp');
 var TaskFactory = require('./src/task_factory');
 var ProxyFactory = require('./src/proxy_factory');
+var GulpPluginRegistery = require('./src/gulp_plugin_registry');
 
 var Guzzle = function() {
-  var proxyFactory = new ProxyFactory();
-  var taskFactory = new TaskFactory(proxyFactory);
+  var gulpPlugins = new GulpPluginRegistery();
+  var proxyFactory = new ProxyFactory(gulpPlugins);
+  var taskFactory = new TaskFactory(gulpPlugins, proxyFactory);
 
   return {
     task: taskFactory.build,
