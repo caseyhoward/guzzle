@@ -49,6 +49,15 @@ guzzle.register('concat', 'uglify', 'jshint');
 guzzle.task('default').src('./src/*.js').jshint().uglify().concat('test.js').dest('./dist');
 ```
 
+### easily merge two streams
+```javascript
+gulp.task('default').src('./assets/src/main.js').jshint().merge(
+  gulp.src('./assets/src/main2.js').jshint())
+  .concat('test.js')
+  .uglify()
+  .dest('./dist');
+```
+
 ## Disclaimer
 
 The API for is most likely going to change. Use at your own risk.
