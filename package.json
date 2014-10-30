@@ -6,6 +6,10 @@
   "scripts": {
     "test": "gulp"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/caseyhoward/guzzle.git"
+  },
   "author": "Casey Howard",
   "license": "MIT",
   "dependencies": {
