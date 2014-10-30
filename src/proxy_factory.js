@@ -1,8 +1,7 @@
 var gulp = require('gulp');
 var _ = require('lodash');
-var mergeStream = require('merge-stream');
 
-module.exports = function(gulpPlugins) {
+module.exports = function(gulpPlugins, pluginRegistry) {
   this.register = gulpPlugins.register;
 
   this.build = function() {
@@ -28,30 +27,13 @@ module.exports = function(gulpPlugins) {
       return proxy;
     }
 
-    var proxy = {
-      src: function() {
-        proxy.stream = gulp.src.apply(null, arguments);
+    var proxy = {};
+    _.forIn(pluginRegistry.all(), function(plugin, name) {
+      proxy[name] = function() {
+        plugin(proxy).apply(proxy, arguments);
         return proxy;
-      },
-      dest: function(destination) {
-        return proxy.stream.pipe(gulp.dest(destination));
-      },
-      pipe: function() {
-        proxy.stream = proxy.stream.pipe.apply(proxy.stream, arguments);
-        return proxy;
-      },
-      on: function() {
-        proxy.stream = proxy.stream.on.apply(proxy.stream, arguments);
-        return proxy;
-      },
-      merge: function() {
-        var proxies = Array.prototype.slice.call(arguments, 0);
-        var streams = _.pluck(proxies, 'stream');
-        streams.push(proxy.stream);
-        proxy.stream = mergeStream.apply(mergeStream, streams);
-        return proxy;
-      }
-    };
+      };
+    });
 
     for (pluginName in gulpPlugins.all()) {
       proxy[pluginName] = buildProxy(pluginName);

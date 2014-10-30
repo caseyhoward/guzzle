@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var _ = require('lodash');
 var ProxyFactory = require('./proxy_factory');
 
-module.exports = function(gulpPlugins) {
+module.exports = function(gulpPlugins, proxyRegistry) {
   this.build = function() {
     var commands = [];
 
@@ -40,7 +40,7 @@ module.exports = function(gulpPlugins) {
     });
 
     recorder.play = function() {
-      var proxy = new ProxyFactory(gulpPlugins).build();
+      var proxy = new ProxyFactory(gulpPlugins, proxyRegistry).build();
       _.each(commands, function(command) {
         proxy = proxy[command.name].apply(proxy, command.arguments);
       });
