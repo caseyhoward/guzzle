@@ -32,7 +32,7 @@ module.exports = function(gulpPlugins) {
     for (pluginName in gulpPlugins.all()) {
       recorder[pluginName] = buildRecorder(pluginName);
     }
-    _.each(['src', 'on', 'dest', 'pipe'], function(name) {
+    _.each(['src', 'on', 'dest', 'merge', 'pipe'], function(name) {
       recorder[name] = function() {
         commands.push({name: name, arguments: arguments});
         return recorder;

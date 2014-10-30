@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var _ = require('lodash');
+var mergeStream = require('merge-stream');
 
 module.exports = function(gulpPlugins) {
   this.register = gulpPlugins.register;
@@ -7,14 +8,14 @@ module.exports = function(gulpPlugins) {
   this.build = function() {
     function buildPluginProxy(pluginName) {
       return function() {
-        stream = stream.pipe(gulpPlugins.get(pluginName).apply(null, arguments));
+        proxy.stream = proxy.stream.pipe(gulpPlugins.get(pluginName).apply(null, arguments));
         return proxy;
       };
     }
 
     function buildProxyFunction(pluginName, property) {
       return function() {
-        stream = stream.pipe(gulpPlugins.get(pluginName)[property].apply(null, arguments));
+        proxy.stream = proxy.stream.pipe(gulpPlugins.get(pluginName)[property].apply(null, arguments));
         return proxy;
       }
     }
@@ -27,25 +28,31 @@ module.exports = function(gulpPlugins) {
       return proxy;
     }
 
-    var stream;
-
     var proxy = {
       src: function() {
-        stream = gulp.src.apply(null, arguments);
+        proxy.stream = gulp.src.apply(null, arguments);
         return proxy;
       },
       dest: function(destination) {
-        return stream.pipe(gulp.dest(destination));
+        return proxy.stream.pipe(gulp.dest(destination));
       },
       pipe: function() {
-        stream = stream.pipe.apply(stream, arguments);
+        proxy.stream = proxy.stream.pipe.apply(proxy.stream, arguments);
         return proxy;
       },
       on: function() {
-        stream = stream.on.apply(stream, arguments);
+        proxy.stream = proxy.stream.on.apply(proxy.stream, arguments);
+        return proxy;
+      },
+      merge: function() {
+        var proxies = Array.prototype.slice.call(arguments, 0);
+        var streams = _.pluck(proxies, 'stream');
+        streams.push(proxy.stream);
+        proxy.stream = mergeStream.apply(mergeStream, streams);
         return proxy;
       }
     };
+
     for (pluginName in gulpPlugins.all()) {
       proxy[pluginName] = buildProxy(pluginName);
     }
