@@ -30,7 +30,7 @@ module.exports = function(gulpPlugins, pluginRegistry) {
     var proxy = {};
     _.forIn(pluginRegistry.all(), function(plugin, name) {
       proxy[name] = function() {
-        plugin(proxy).apply(proxy, arguments);
+        plugin(proxy, gulp).apply(proxy, arguments);
         return proxy;
       };
     });
