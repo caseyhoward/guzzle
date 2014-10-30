@@ -6,18 +6,16 @@ module.exports = function(gulpPlugins, pluginRegistry) {
   this.build = function() {
     var commands = [];
 
-    function record(name) {
+    function record(name, extras) {
+      extras = extras || {};
       return function() {
-        commands.push({name: name, arguments: arguments});
+        commands.push(_.merge(extras, {name: name, arguments: arguments}));
         return recorder;
       };
     }
 
     function recordFunction(name, property) {
-      return function() {
-        commands.push({name: name, property: property, arguments: arguments});
-        return recorder;
-      }
+      record(name, {property: property});
     }
 
     function buildRecorder(name) {
@@ -33,10 +31,7 @@ module.exports = function(gulpPlugins, pluginRegistry) {
       recorder[pluginName] = buildRecorder(pluginName);
     }
     _.each(_.keys(pluginRegistry.all()), function(name) {
-      recorder[name] = function() {
-        commands.push({name: name, arguments: arguments});
-        return recorder;
-      };
+      recorder[name] = record(name);
     });
 
     recorder.play = function() {
