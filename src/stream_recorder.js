@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var _ = require('lodash');
 var ProxyFactory = require('./proxy_factory');
 
-module.exports = function(gulpPlugins, proxyRegistry) {
+module.exports = function(gulpPlugins, pluginRegistry) {
   this.build = function() {
     var commands = [];
 
@@ -32,7 +32,7 @@ module.exports = function(gulpPlugins, proxyRegistry) {
     for (pluginName in gulpPlugins.all()) {
       recorder[pluginName] = buildRecorder(pluginName);
     }
-    _.each(['src', 'on', 'dest', 'merge', 'pipe'], function(name) {
+    _.each(_.keys(pluginRegistry.all()), function(name) {
       recorder[name] = function() {
         commands.push({name: name, arguments: arguments});
         return recorder;
@@ -40,7 +40,7 @@ module.exports = function(gulpPlugins, proxyRegistry) {
     });
 
     recorder.play = function() {
-      var proxy = new ProxyFactory(gulpPlugins, proxyRegistry).build();
+      var proxy = new ProxyFactory(gulpPlugins, pluginRegistry).build();
       _.each(commands, function(command) {
         proxy = proxy[command.name].apply(proxy, command.arguments);
       });

@@ -5,16 +5,17 @@ var GulpPluginRegistery = require('./src/gulp_plugin_registry');
 var PluginRegistry = require('./src/plugin_registry');
 
 var Guzzle = function() {
-  var gulpPlugins = new GulpPluginRegistery();
   var pluginRegistry = new PluginRegistry();
-  var proxyFactory = new ProxyFactory(gulpPlugins, pluginRegistry);
-  var taskFactory = new TaskFactory(gulpPlugins, pluginRegistry);
 
   pluginRegistry.register('dest', require('./src/plugins/dest'));
   pluginRegistry.register('merge', require('./src/plugins/merge'));
   pluginRegistry.register('on', require('./src/plugins/on'));
   pluginRegistry.register('pipe', require('./src/plugins/pipe'));
   pluginRegistry.register('src', require('./src/plugins/src'));
+
+  var gulpPlugins = new GulpPluginRegistery();
+  var proxyFactory = new ProxyFactory(gulpPlugins, pluginRegistry);
+  var taskFactory = new TaskFactory(gulpPlugins, pluginRegistry);
 
   return {
     task: taskFactory.build,
