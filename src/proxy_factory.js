@@ -4,7 +4,7 @@ var _ = require('lodash');
 module.exports = function(gulpPlugins) {
   this.register = gulpPlugins.register;
 
-  this.build = function(sources) {
+  this.build = function() {
     function buildPluginProxy(pluginName) {
       return function() {
         stream = stream.pipe(gulpPlugins.get(pluginName).apply(null, arguments));
@@ -27,9 +27,13 @@ module.exports = function(gulpPlugins) {
       return proxy;
     }
 
-    var stream = gulp.src(sources);
+    var stream;
 
     var proxy = {
+      src: function() {
+        stream = gulp.src.apply(null, arguments);
+        return proxy;
+      },
       dest: function(destination) {
         return stream.pipe(gulp.dest(destination));
       },

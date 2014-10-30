@@ -10,7 +10,10 @@ var Guzzle = function() {
 
   return {
     task: taskFactory.build,
-    src: proxyFactory.build,
+    src: function() {
+      var proxy = proxyFactory.build();
+      return proxy.src.apply(null, arguments);
+    },
     register: proxyFactory.register
   };
 };
