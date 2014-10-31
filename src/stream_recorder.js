@@ -34,13 +34,8 @@ module.exports = function(gulpPlugins, pluginRegistry) {
       recorder[name] = record(name);
     });
 
-    recorder.play = function() {
-      var proxy = new ProxyFactory(gulpPlugins, pluginRegistry).build();
-      _.each(commands, function(command) {
-        proxy = proxy[command.name].apply(proxy, command.arguments);
-      });
-      return proxy;
-    };
+    recorder.commands = commands;
+
     return recorder;
   };
 };
