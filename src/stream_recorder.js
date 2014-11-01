@@ -15,7 +15,7 @@ module.exports = function(gulpPlugins, pluginRegistry) {
     }
 
     function recordFunction(name, property) {
-      record(name, {property: property});
+      return record(name, {property: property});
     }
 
     function buildRecorder(name) {

@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var StreamRecorder = new require('./stream_recorder');
 var ProxyFactory = new require('./proxy_factory');
-var _ = require('lodash');
 var RecordedStreamPlayer = require('./recorded_stream_player');
 
 module.exports = function(gulpPlugins, pluginRegistry) {

@@ -52,6 +52,11 @@ describe('guzzle', function() {
     expect(actualFileContents).to.have.string(expectedFileContents);
   });
 
+  runTest('task-functions', function(actualFileContents, expectedFileContents) {
+    expect(actualFileContents).to.not.equal('');
+    expect(actualFileContents).to.have.string(expectedFileContents);
+  });
+
   runTest('task', function(actualFileContents, expectedFileContents) {
     expect(actualFileContents.toString()).to.not.equal('');
     expect(actualFileContents).to.equal(expectedFileContents);

@@ -22,6 +22,15 @@ gulp.task('test-multiple_functions', function() {
     .dest('./dist');
 });
 
+gulp.task('test-task-functions')
+  .src('./assets/src/**/*.js')
+  .jshint()
+  .sourcemaps.init()
+  .concat('actual.js')
+  .uglify()
+  .sourcemaps.write()
+  .dest('./dist');
+
 gulp.task('test-task')
   .src('./assets/src/**/*.js')
   .jshint()
