@@ -2,8 +2,6 @@ var gulp = require('gulp');
 var _ = require('lodash');
 
 module.exports = function(gulpPlugins, pluginRegistry) {
-  this.register = gulpPlugins.register;
-
   this.build = function() {
     function buildPluginProxy(pluginName) {
       return function() {

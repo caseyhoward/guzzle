@@ -23,7 +23,7 @@ var Guzzle = function() {
       var proxy = proxyFactory.build();
       return proxy.src.apply(null, arguments);
     },
-    register: proxyFactory.register
+    register: gulpPlugins.register
   };
 };
 
