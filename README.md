@@ -51,8 +51,8 @@ guzzle.task('default').src('./src/*.js').jshint().uglify().concat('test.js').des
 
 ### easily merge two streams
 ```javascript
-gulp.task('default').src('./assets/src/main.js').jshint().merge(
-  gulp.src('./assets/src/main2.js').jshint())
+guzzle.task('default').src('./assets/src/main.js').jshint().merge(
+  guzzle.src('./assets/src/main2.js').jshint())
   .concat('test.js')
   .uglify()
   .dest('./dist');
