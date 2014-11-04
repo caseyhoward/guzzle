@@ -6,12 +6,14 @@
   "scripts": {
     "test": "gulp"
   },
+  "homepage": "https://github.com/caseyhoward/guzzle",
   "repository": {
     "type" : "git",
     "url" : "http://github.com/caseyhoward/guzzle.git"
   },
   "author": "Casey Howard",
   "license": "MIT",
+  "keywords": ["gulp", "gulpfriendly"],
   "dependencies": {
     "gulp": "~3.8.8",
     "lodash": "~2.4.1"
