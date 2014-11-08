@@ -19,9 +19,6 @@ module.exports = function(gulpPlugins, pluginRegistry) {
 
     function buildProxy(pluginName) {
       var proxy = buildPluginProxy(pluginName);
-      _.each(_.functions(gulpPlugins.get(pluginName)), function(property) {
-        proxy[property] = buildProxyFunction(pluginName, property);
-      });
       return proxy;
     }
 
@@ -35,6 +32,9 @@ module.exports = function(gulpPlugins, pluginRegistry) {
 
     for (pluginName in gulpPlugins.all()) {
       proxy[pluginName] = buildProxy(pluginName);
+      _.each(_.functions(gulpPlugins.get(pluginName)), function(property) {
+        proxy[pluginName + '_' + property] = buildProxyFunction(pluginName, property);
+      });
     }
     return proxy;
   };

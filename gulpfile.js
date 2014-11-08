@@ -14,7 +14,7 @@ function incrementVersion(proxy, importance) {
   return proxy.src(['./package.json'])
     .bump({type: importance})
     .dest('./')
-    .git.commit('Update version')
+    .git_commit('Update version')
     .filter('package.json')
     .tagVersion();
 }

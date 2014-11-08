@@ -6,32 +6,22 @@ module.exports = function(gulpPlugins, pluginRegistry) {
   this.build = function() {
     var commands = [];
 
-    function record(name, extras) {
-      extras = extras || {};
+    function buildRecorder(name) {
       return function() {
-        commands.push(_.merge(extras, {name: name, arguments: arguments}));
+        commands.push({name: name, arguments: arguments});
         return recorder;
       };
-    }
-
-    function recordFunction(name, property) {
-      return record(name, {property: property});
-    }
-
-    function buildRecorder(name) {
-      var recorder = record(name);
-      _.each(_.functions(gulpPlugins.get(name)), function(property) {
-        recorder[property] = recordFunction(name, property);
-      });
-      return recorder;
     }
 
     var recorder = {};
     for (pluginName in gulpPlugins.all()) {
       recorder[pluginName] = buildRecorder(pluginName);
+      _.each(_.functions(gulpPlugins.get(pluginName)), function(property) {
+        recorder[pluginName + '_' + property] = buildRecorder(pluginName + '_' + property);
+      });
     }
     _.each(_.keys(pluginRegistry.all()), function(name) {
-      recorder[name] = record(name);
+      recorder[name] = buildRecorder(name);
     });
 
     recorder.commands = commands;

@@ -32,13 +32,15 @@ gulp.task('default', function() {
 ```javascript
 var guzzle = require('guzzle');
 
-guzzle.register('concat', 'uglify', 'jshint');
+guzzle.register('concat', 'uglify', 'jshint', 'sourcemaps');
 
 guzzle.task('default')
   .src('./src/*.js')
   .jshint()
-  .uglify()
+  .sourcemaps_init()
   .concat('test.js')
+  .uglify()
+  .sourcemaps_write()
   .dest('./dist');
 ```
 

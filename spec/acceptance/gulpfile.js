@@ -15,20 +15,20 @@ gulp.task('test-basic', function() {
 gulp.task('test-multiple_functions', function() {
   return gulp.src('./assets/src/**/*.js')
     .jshint()
-    .sourcemaps.init()
+    .sourcemaps_init()
     .concat('actual.js')
     .uglify()
-    .sourcemaps.write()
+    .sourcemaps_write()
     .dest('./dist');
 });
 
 gulp.task('test-task-functions')
   .src('./assets/src/**/*.js')
   .jshint()
-  .sourcemaps.init()
+  .sourcemaps_init()
   .concat('actual.js')
   .uglify()
-  .sourcemaps.write()
+  .sourcemaps_write()
   .dest('./dist');
 
 gulp.task('test-task')
