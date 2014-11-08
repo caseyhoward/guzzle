@@ -44,15 +44,6 @@ guzzle.task('default')
   .dest('./dist');
 ```
 
-### easily merge two streams
-```javascript
-guzzle.task('default').src('./assets/src/main.js').jshint().merge(
-  guzzle.src('./assets/src/main2.js').jshint())
-  .concat('test.js')
-  .uglify()
-  .dest('./dist');
-```
-
 ## Disclaimer
 
 The API for is most likely going to change. Use at your own risk.
